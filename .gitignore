@@ -1,2 +1,7 @@
 dist/
 __pycache__/
+
+# Track baked output for GitHub Pages
+!dist/
+!dist/**
+
