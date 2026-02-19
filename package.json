@@ -1,0 +1,9 @@
+{
+  "name": "field-medic-ledger",
+  "private": true,
+  "version": "0.3.0",
+  "scripts": {
+    "build": "python tools/build.py",
+    "serve:dist": "python -m http.server 8000 --directory dist"
+  }
+}

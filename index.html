@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <title>Field Guide — DIY Commune</title>
+  <div data-include="components/layout/head.html"></div>
+  <style>
+    .hud{position:absolute; left:16px; top:16px; right:16px; display:flex; gap:12px; align-items:flex-start; justify-content:space-between; pointer-events:none;}
+    .panel{pointer-events:auto; max-width:min(720px,92vw);}
+  </style>
+</head>
+<body>
+  <div class="stage" id="stage">
+    <div data-include="assets/svg/map_bg.svg"></div>
+
+    <div class="hud">
+      <div class="pill panel">
+        <h1 class="title">Field Medic Ledger (DIY Commune)</h1>
+        <p class="sub">Map → click a chapter marker. Drag to pan. Scroll to zoom.</p>
+        <p class="sub small">Keys: <span class="k">R</span> reset view</p>
+      </div>
+      <div class="pill controls" style="pointer-events:auto">
+        <a class="btn" href="chapter-1.html">Start →</a>
+        <a class="btn" href="concept.html">Concept Docs →</a>
+      </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+  </div>
+
+  <script src="assets/js/panzoom.js"></script>
+  <script src="assets/js/guide.js"></script>
+  <script>
+    async function loadManifest(){
+      const r = await fetch('manifest.json', {cache:'no-store'});
+      return await r.json();
+    }
+    function escapeHtml(s){
+      return String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+    }
+    function showToast(title, sub){
+      const toast = document.getElementById('toast');
+      toast.innerHTML = `<div style="font-weight:900">${escapeHtml(title)}</div><div class="small">${escapeHtml(sub||'')}</div>`;
+      toast.classList.add('show');
+      clearTimeout(showToast._t);
+      showToast._t = setTimeout(()=>toast.classList.remove('show'), 1600);
+    }
+    function addHotspots(chapters){
+      const svg = document.getElementById('bg');
+      const g = document.getElementById('hotspots');
+      if(!svg || !g) return;
+
+      const positions = [
+        [320,280],[700,270],[1080,290],
+        [420,470],[820,470],
+        [1180,520],[300,670],
+        [650,680],[980,700],[1250,720]
+      ];
+
+      chapters.forEach((ch, idx) => {
+        const [x,y] = positions[idx] || [240 + idx*90, 320 + idx*40];
+        const ns = "http://www.w3.org/2000/svg";
+        const grp = document.createElementNS(ns, "g");
+        grp.setAttribute("class","hot");
+        grp.setAttribute("tabindex","0");
+        grp.dataset.target = ch.file;
+        grp.dataset.title = ch.title;
+        grp.dataset.sub = ch.subtitle;
+
+        const ring = document.createElementNS(ns,"circle");
+        ring.setAttribute("class","ring");
+        ring.setAttribute("cx", x); ring.setAttribute("cy", y); ring.setAttribute("r", 54);
+        ring.setAttribute("fill","rgba(214,181,91,.14)");
+        ring.setAttribute("filter","url(#hotGlow)");
+
+        const stroke = document.createElementNS(ns,"circle");
+        stroke.setAttribute("cx", x); stroke.setAttribute("cy", y); stroke.setAttribute("r", 46);
+        stroke.setAttribute("fill","none");
+        stroke.setAttribute("stroke","rgba(214,181,91,.80)");
+        stroke.setAttribute("stroke-width","4");
+
+        const label = document.createElementNS(ns,"text");
+        label.setAttribute("class","label ink");
+        label.setAttribute("x", x+70);
+        label.setAttribute("y", y+10);
+        label.textContent = `CH ${(idx+1).toString().padStart(2,'0')}`;
+
+        grp.appendChild(ring); grp.appendChild(stroke); grp.appendChild(label);
+
+        grp.addEventListener('click', ()=> window.location.href = grp.dataset.target);
+        grp.addEventListener('mouseenter', ()=> showToast(grp.dataset.title, grp.dataset.sub));
+        grp.addEventListener('focus', ()=> showToast(grp.dataset.title, grp.dataset.sub));
+        grp.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' '){ e.preventDefault(); window.location.href = grp.dataset.target; } });
+
+        g.appendChild(grp);
+      });
+    }
+
+    (async ()=>{ const m = await loadManifest(); addHotspots(m.chapters || []); })();
+  </script>
+</body>
+</html>

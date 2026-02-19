@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <title>Chapter 4 — Aftercare and Logs</title>
+  <div data-include="components/layout/head.html"></div>
+</head>
+<body>
+  <div class="stage" id="stage">
+    <div data-include="assets/svg/ledger_bg.svg"></div>
+
+    <div class="topbar" data-ch-title="CHAPTER 4 — AFTERCARE AND LOGS" data-ch-sub="Wrap, replace, record. Body-map + heat log. Routine as medicine.">
+      <div class="pill">
+        <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+          <a class="btn" href="index.html">← Map</a>
+          <span class="k">CH 04 / 10</span>
+          <span class="k">DIY commune</span>
+        </div>
+        <h1 class="title">Chapter 4 — Aftercare and Logs</h1>
+        <p class="sub">Wrap, replace, record. Body-map + heat log. Routine as medicine.</p>
+      </div>
+
+      <div class="pill">
+        <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end;align-items:center">
+          <button class="btn" id="btnDrawer">SUPPLY DRAWER</button>
+          <a class='btn' href='chapter-3.html'>← Prev</a>
+          <a class='btn' href='chapter-5.html'>Next →</a>
+        </div>
+        <div class="sub" style="margin-top:6px">Keys: <span class="k">D</span> drawer · <span class="k">R</span> reset view</div>
+      </div>
+    </div>
+
+    <div class="content grid2">
+      <div class="card"><div data-include="components/chapters/ch04_left.html"></div></div>
+      <div class="card"><div data-include="components/chapters/ch04_right.html"></div></div>
+    </div>
+
+    <div class="drawer" id="drawer">
+      <div class="card" style="height:100%">
+        <div style="display:flex;justify-content:space-between;gap:10px;align-items:center">
+          <h2 class="h" style="margin:0">SUPPLY DRAWER</h2>
+          <button class="btn" id="btnClose">Close</button>
+        </div>
+        <div class="divider"></div>
+        <div data-include="components/drawers/ch04_drawer.html"></div>
+      </div>
+    </div>
+  </div>
+  <script src="assets/js/guide.js"></script>
+</body>
+</html>
