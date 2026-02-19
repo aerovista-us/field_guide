@@ -44,3 +44,7 @@ svg.bg{position:absolute;inset:0;width:100%;height:100%;display:block}
 .toast.show{opacity:1;transform:translateY(0)}
 .small{opacity:.85;font-size:12px;line-height:1.35;color:var(--muted)}
 @media (max-width:980px){.topbar{align-items:stretch}.content{top:142px}.drawer{top:142px}.grid2{grid-template-columns:1fr}}
+
+/* Map: stage is pan surface; hotspots must receive clicks (panzoom.js skips setPointerCapture on .hot) */
+#stage,.stage{pointer-events:auto}
+.hot,g.hot,#bg .hot,#bg g.hot{pointer-events:auto;cursor:pointer}
